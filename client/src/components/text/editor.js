@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 import { useDispatch } from 'react-redux';
-import { setContent } from '../../../redux/actionCreators';
+import { setContent } from '../../redux/actionCreators';
 
 const TextEditor = ({ readonly = false, text = '' }) => {
   console.log(text);

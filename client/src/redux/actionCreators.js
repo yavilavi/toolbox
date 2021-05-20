@@ -34,7 +34,7 @@ export const saveText = (content) => (dispatch) => {
     .catch(console.log);
 };
 
-export const fetchTexts = () => (dispatch) => {
+export const fetchTexts = (dispatch) => {
   serverPetition
     .get('texts')
     .then(({ data }) => {
@@ -45,4 +45,32 @@ export const fetchTexts = () => (dispatch) => {
       });
     })
     .catch((e) => console.log(e.message));
+};
+
+export const deleteText = (id) => (dispatch) => {
+  serverPetition
+    .delete('texts', { data: { id } })
+    .then(({ status }) => {
+      if (status === 204) {
+        fetchTexts(dispatch);
+      } else {
+        console.log('error');
+      }
+    })
+    .catch((e) => console.log(e.message));
+};
+
+export const editText = (id, content) => (dispatch) => {
+  serverPetition
+    .put('texts', { id, content })
+    .then(({ data }) => {
+      if (data.success) {
+        console.log(data);
+        // dispatch({
+        //   type: actionTypes.EDIT_TEXT,
+        //   payload: content,
+        // });
+      }
+    })
+    .catch(console.log);
 };

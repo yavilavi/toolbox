@@ -3,6 +3,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
+const session = require('express-session');
 
 const corsOptions = {
   credentials: true,
@@ -13,6 +14,14 @@ const corsOptions = {
 const Router = require('./routes/index');
 
 const app = express();
+
+app.use(
+  session({
+    secret: process.env.TOKEN_SECRET,
+    resave: false,
+    saveUninitialized: true,
+  }),
+);
 
 app.use(logger('dev'));
 app.use(express.json());

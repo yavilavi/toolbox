@@ -1,7 +1,7 @@
 import Card from 'react-bootstrap/card';
 import Button from 'react-bootstrap/Button';
 import { useDispatch, useSelector } from 'react-redux';
-import TextEditor from './editor';
+import TextEditor from '../editor';
 import { saveText } from '../../../redux/actionCreators';
 
 const TextCreate = () => {
