@@ -7,8 +7,12 @@ const Text = require('../models/Text');
 /* GET users listing. */
 router.get('/', (req, res, next) => {
   Text.find({ user_id: '60a5bedc209aa32a50ec34c2' })
-    .then((users) => {
-      res.status(200).json(users);
+    .then((texts) => {
+      texts = texts.map((t) => ({
+        title: t.title,
+        id: t._id,
+      }));
+      res.status(200).json(texts);
     })
     .catch((e) => {
       res.status(500).json(e.stack);

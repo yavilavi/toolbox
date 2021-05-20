@@ -35,14 +35,14 @@ export const saveText = (content) => (dispatch) => {
 };
 
 export const fetchTexts = () => (dispatch) => {
-  serverPetition.get('texts').then(({ data }) => {
-    const payload = data.map((t) => ({
-      title: t.title,
-      id: t.id,
-    }));
-    dispatch({
-      type: actionTypes.FETCH_TEXTS,
-      payload,
-    });
-  });
+  serverPetition
+    .get('texts')
+    .then(({ data }) => {
+      const payload = data;
+      dispatch({
+        type: actionTypes.FETCH_TEXTS,
+        payload,
+      });
+    })
+    .catch((e) => console.log(e.message));
 };
