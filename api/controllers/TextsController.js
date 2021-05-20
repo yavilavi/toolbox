@@ -34,4 +34,19 @@ router.post('/', (req, res) => {
   }
 });
 
+router.get('/get/:id', (req, res) => {
+  const { id } = req.params;
+  Text.find({ user_id: '60a5bedc209aa32a50ec34c2', _id: id })
+    .then((text) => {
+      if (text.length !== 0) {
+        res.status(200).json(text[0].content);
+      } else {
+        res.status(404).json({ error: 'not found' });
+      }
+    })
+    .catch((e) => {
+      res.status(404).json({ error: 'not found' });
+    });
+});
+
 module.exports = router;

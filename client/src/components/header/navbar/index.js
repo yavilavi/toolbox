@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Form from 'react-bootstrap/Form';
@@ -8,7 +8,9 @@ import Button from 'react-bootstrap/Button';
 
 const NavBar = () => (
   <Navbar bg="primary" variant="dark" expand="lg">
-    <Navbar.Brand href="#home">Text app</Navbar.Brand>
+    <Link className="navbar-brand" to="/">
+      Text app
+    </Link>
     <Navbar.Toggle aria-controls="basic-navbar-nav" />
     <Navbar.Collapse id="basic-navbar-nav">
       <Nav className="mr-auto">

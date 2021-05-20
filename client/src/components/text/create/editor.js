@@ -3,7 +3,8 @@ import { Editor } from '@tinymce/tinymce-react';
 import { useDispatch } from 'react-redux';
 import { setContent } from '../../../redux/actionCreators';
 
-const TextEditor = ({ readonly = false }) => {
+const TextEditor = ({ readonly = false, text = '' }) => {
+  console.log(text);
   const dispatch = useDispatch();
   const editorRef = useRef(null);
   const handleChange = ({ level }) => {
@@ -17,7 +18,7 @@ const TextEditor = ({ readonly = false }) => {
           dispatch(setContent(editor.startContent));
           editorRef.current = editor;
         }}
-        initialValue=""
+        initialValue={text}
         init={{
           resize: false,
           placeholder: 'Type you text here...',
