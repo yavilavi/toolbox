@@ -2,6 +2,7 @@ const express = require('express');
 
 const jwt = require('jsonwebtoken');
 const { BcryptHelpers } = require('../helpers');
+const { isAuthorizedMiddleware } = require('../middlewares/auth/index');
 
 const router = express.Router();
 
@@ -20,10 +21,9 @@ router.post('/signup', (req, res) => {
     passwordConfirmation !== '' &&
     username !== ''
   ) {
-    console.log(name, password, passwordConfirmation, username);
     if (password === passwordConfirmation) {
       const hashedPassword = BcryptHelpers.encryptPassword(password);
-      User.create({ name, username, password: hashedPassword })
+      User.create({ name, username: username.toLowerCase(), password: hashedPassword })
         .then(() => {
           res.status(201).json({ success: true });
         })
@@ -48,7 +48,7 @@ router.post('/signup', (req, res) => {
 router.post('/login', (req, res) => {
   const { username, password } = req.body;
   if (username && password && username !== '' && password !== '') {
-    User.findOne({ username })
+    User.findOne({ username: username.toLowerCase() })
       .then((u) => {
         if (u) {
           const passwordIsValid = BcryptHelpers.validatePassword(password, u.password);
@@ -57,7 +57,7 @@ router.post('/login', (req, res) => {
             const token = jwt.sign({ user_id: u._id }, process.env.TOKEN_SECRET, {
               expiresIn: 1000 * 60 * 60 * 24,
             });
-            res.status(201).json({ token, userName: u.name });
+            res.status(200).json({ token, userName: u.name });
           } else {
             res.status(401).json({ error: 'Invalid username or password' });
           }
@@ -71,5 +71,28 @@ router.post('/login', (req, res) => {
   } else {
     res.status(401).json({ error: 'Invalid username or password' });
   }
+});
+router.get('/me', isAuthorizedMiddleware, (req, res) => {
+  const { id } = req.user;
+  User.findOne({ _id: id })
+    .then((u) => {
+      if (u) {
+        res.status(200).json({
+          isLoggedIn: true,
+          authChecked: true,
+        });
+      } else {
+        res.status(401).json({
+          isLoggedIn: false,
+          authChecked: true,
+        });
+      }
+    })
+    .catch(() => {
+      res.status(200).json({
+        isLoggedIn: false,
+        authChecked: true,
+      });
+    });
 });
 module.exports = router;

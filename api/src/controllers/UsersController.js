@@ -21,7 +21,7 @@ router.get('/', (req, res) => {
 
 router.post('/', (req, res) => {
   const { name, username, password } = req.body;
-  const user = new User({ name, username, password });
+  const user = new User({ name, username: username.toLowerCase(), password });
   user
     .save()
     .then((u) => {

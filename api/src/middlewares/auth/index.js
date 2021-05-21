@@ -7,7 +7,10 @@ const isAuthorizedMiddleware = (req, res, next) => {
     if (token && token !== '') {
       jwt.verify(token, TOKEN_SECRET, (err, decoded) => {
         if (err) {
-          res.status(401).json({ noLoggedIN: true });
+          res.status(401).json({
+            isLoggedIn: false,
+            authChecked: true,
+          });
         }
         if (decoded.user_id) {
           req.user = {};
@@ -16,10 +19,16 @@ const isAuthorizedMiddleware = (req, res, next) => {
         }
       });
     } else {
-      res.status(401).json({ noLoggedIN: true });
+      res.status(401).json({
+        isLoggedIn: false,
+        authChecked: true,
+      });
     }
   } else {
-    res.status(401).json({ noLoggedIN: true });
+    res.status(401).json({
+      isLoggedIn: false,
+      authChecked: true,
+    });
   }
 };
 module.exports = {

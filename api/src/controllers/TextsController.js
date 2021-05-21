@@ -33,24 +33,6 @@ router.get('/', (req, res) => {
     });
 });
 
-router.post('/', (req, res) => {
-  const { content } = req.body;
-  const { id } = req.user;
-  if (content || content === '') {
-    const title = generateTitle();
-    Text.create({ user_id: id, content, title })
-      .then((text) => {
-        // eslint-disable-next-line no-underscore-dangle
-        res.status(201).json({ text: { id: text._id, content: text.content }, success: true });
-      })
-      .catch(() => {
-        res.status(500).json({ error: 'Something went wrong please try again' });
-      });
-  } else {
-    res.status(400).json({ error: 'content is not valid' });
-  }
-});
-
 router.get('/get/:id', (req, res) => {
   const { id } = req.params;
   const userId = req.user.id;
@@ -67,8 +49,25 @@ router.get('/get/:id', (req, res) => {
     });
 });
 
-router.delete('/', (req, res) => {
-  const { id } = req.body;
+router.post('/', (req, res) => {
+  const { content } = req.body;
+  const { id } = req.user;
+  if (content || content === '') {
+    const title = generateTitle(content);
+    Text.create({ user_id: id, content, title })
+      .then((text) => {
+        res.status(201).json({ text: { id: text._id, content: text.content }, success: true });
+      })
+      .catch(() => {
+        res.status(500).json({ error: 'Something went wrong please try again' });
+      });
+  } else {
+    res.status(400).json({ error: 'content is not valid' });
+  }
+});
+
+router.delete('/:id', (req, res) => {
+  const { id } = req.params;
   const userId = req.user.id;
   if (id) {
     Text.findOneAndDelete({ _id: id, user_id: userId })
@@ -89,8 +88,8 @@ router.put('/', (req, res) => {
   if (content && id && content !== '') {
     const title = generateTitle(content);
     Text.updateOne({ _id: id, user_id: userId }, { content, title })
-      .then((ut) => {
-        res.status(200).json({ ut, success: true });
+      .then(() => {
+        res.status(200).json({ success: true });
       })
       .catch(() => {
         res.status(500).json({ error: 'Something went wrong please try again' });
