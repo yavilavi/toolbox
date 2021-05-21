@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { doSignup, setSiteTitle } from '../../redux/actionCreators';
 
 const Signup = () => {
@@ -11,7 +12,7 @@ const Signup = () => {
   });
   const dispatch = useDispatch();
   useEffect(() => {
-    setSiteTitle(dispatch, 'Signup');
+    setSiteTitle(dispatch, 'Register a new membership');
   }, [dispatch]);
   const handleChange = (e) => {
     setFields({ ...fields, [e.target.name]: e.target.value });
@@ -34,6 +35,8 @@ const Signup = () => {
             placeholder="Enter your name"
             onChange={handleChange}
             value={fields.name}
+            required
+            autoComplete="off"
           />
         </div>
         <div className="form-group">
@@ -46,6 +49,8 @@ const Signup = () => {
             placeholder="Enter your user name"
             onChange={handleChange}
             value={fields.username}
+            required
+            autoComplete="off"
           />
         </div>
         <div className="form-group">
@@ -58,6 +63,7 @@ const Signup = () => {
             placeholder="Enter password"
             onChange={handleChange}
             value={fields.password}
+            required
           />
         </div>
         <div className="form-group">
@@ -70,14 +76,18 @@ const Signup = () => {
             placeholder="Confirm password"
             onChange={handleChange}
             value={fields.passwordConfirmation}
+            required
           />
         </div>
       </div>
       <div className="card-footer text-muted">
-        <button type="submit" className="btn btn-primary">
-          Submit&nbsp;
-          <i className="fas fa-spinner fa-spin" />
+        <button type="submit" className="btn btn-success">
+          Signup&nbsp;
         </button>
+        &nbsp;
+        <Link to="/auth/login" className="btn btn-primary">
+          Login&nbsp;
+        </Link>
       </div>
     </form>
   );

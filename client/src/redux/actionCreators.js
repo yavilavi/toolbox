@@ -70,7 +70,7 @@ export const fetchTexts = (dispatch) => {
 export const deleteText = (id) => (dispatch) => {
   const serverPetition = instantiateAxios();
   serverPetition
-    .delete('texts', { data: { id } })
+    .delete(`texts/${id}`)
     .then(({ status }) => {
       if (status === 204) {
         fetchTexts(dispatch);
@@ -116,7 +116,10 @@ export const doLogin = (userData, dispatch) => {
       setFetching(dispatch, false);
       dispatch({
         type: actionTypes.SET_LOG_STATUS,
-        payload: true,
+        payload: {
+          isLoggedIn: true,
+          authChecked: true,
+        },
       });
       dispatch({
         type: actionTypes.SET_USER_NAME,
@@ -154,7 +157,42 @@ export const doLogout = (dispatch) => {
     type: actionTypes.FETCH_TEXTS,
     payload: [],
   });
+  dispatch({
+    type: actionTypes.SET_LOG_STATUS,
+    payload: {
+      isLoggedIn: false,
+      authChecked: true,
+    },
+  });
   redirect(dispatch, true, '/auth/login');
+};
+
+export const checkAuth = (dispatch) => {
+  const serverPetition = instantiateAxios();
+  serverPetition
+    .get('auth/me')
+    .then(({ data }) => {
+      dispatch({
+        type: actionTypes.SET_LOG_STATUS,
+        payload: data,
+      });
+    })
+    .catch((e) => {
+      if (e.response) {
+        dispatch({
+          type: actionTypes.SET_LOG_STATUS,
+          payload: e.response.data,
+        });
+      } else {
+        dispatch({
+          type: actionTypes.SET_LOG_STATUS,
+          payload: {
+            isLoggedIn: false,
+            authChecked: true,
+          },
+        });
+      }
+    });
 };
 
 export const setAlert = (

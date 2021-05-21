@@ -1,11 +1,8 @@
 import React, { useEffect } from 'react';
-import './App.css';
 import { Route, Switch, useHistory } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
-import NavBar from '../../header/navbar';
 import ContentContainer from '../content/ContentContainer';
-import Footer from '../../footer';
 import AuthContainer from '../../auth/container';
 import { redirect, setAlert } from '../../../redux/actionCreators';
 
@@ -56,10 +53,8 @@ function App() {
       </Route>
       <Route path="/">
         <div className="w-100">
-          <NavBar />
           <ContentContainer />
         </div>
-        <Footer />
       </Route>
     </Switch>
   );

@@ -1,9 +1,11 @@
 import { useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import Signup from './signup';
 import Login from './login';
 
 const AuthContainer = () => {
+  const siteTitle = useSelector((state) => state.siteTitle);
   useEffect(() => {
     const root = document.getElementById('root');
     root.classList.remove('flex-column');
@@ -20,7 +22,7 @@ const AuthContainer = () => {
       <div className="row h-100 justify-content-center align-items-center">
         <div className="h-50">
           <div className="card text-center">
-            <div className="card-header">Register a membership</div>
+            <div className="card-header">{siteTitle}</div>
             <Switch>
               <Route exact path="/auth/signup" component={Signup} />
               <Route exact path="/auth/login" component={Login} />

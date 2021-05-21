@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import TextListItem from './item';
 import { fetchTexts, setSiteTitle } from '../../../redux/actionCreators';
-import * as actionTypes from '../../../redux/actionTypes';
 
 const TextList = () => {
   const items = useSelector((state) => state.textsList);
@@ -20,12 +19,6 @@ const TextList = () => {
   useEffect(() => {
     setSiteTitle(dispatch, 'Texts list');
     fetchTexts(dispatch);
-    return () => {
-      dispatch({
-        type: actionTypes.FETCH_TEXTS,
-        payload: [],
-      });
-    };
   }, [dispatch]);
 
   const textsList = items.filter(filterHelper).map((i) => <TextListItem key={i.id} item={i} />);

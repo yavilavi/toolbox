@@ -16,6 +16,10 @@ const initialState = {
   },
   isInitializing: false,
   isFetching: false,
+  session: {
+    isLoggedIn: false,
+    authChecked: false,
+  },
   isLoggedIn: false,
   userName: '',
   siteTitle: '',
@@ -37,7 +41,7 @@ const rootReducer = (state = initialState, action) => {
     case actionType.SET_SITE_TITLE:
       return { ...state, siteTitle: action.payload };
     case actionType.SET_LOG_STATUS:
-      return { ...state, isLoggedIn: action.payload };
+      return { ...state, session: action.payload };
     case actionType.SET_USER_NAME:
       return { ...state, userName: action.payload };
     default:

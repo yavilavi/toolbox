@@ -1,20 +1,17 @@
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { doLogin, setFetching, setSiteTitle } from '../../redux/actionCreators';
 
 const Login = () => {
   const [fields, setFields] = useState({ username: '', password: '' });
-  const isFetching = useSelector((state) => state.isFetching);
-  // const isLoggedIn = useSelector((state) => state.isLoggedIn);
-  const [submitting, setSubmitting] = useState(isFetching);
   const handleChange = (e) => {
     setFields({ ...fields, [e.target.name]: e.target.value });
   };
   const dispatch = useDispatch();
   useEffect(() => {
     setSiteTitle(dispatch, 'Login');
-    setSubmitting(isFetching);
-  }, [dispatch, isFetching]);
+  }, [dispatch]);
   const handleSubmit = (e) => {
     e.preventDefault();
     setFetching(dispatch, true);
@@ -33,6 +30,8 @@ const Login = () => {
             placeholder="Enter your user name"
             onChange={handleChange}
             value={fields.username}
+            required
+            autoComplete="off"
           />
         </div>
         <div className="form-group">
@@ -45,14 +44,18 @@ const Login = () => {
             placeholder="Enter password"
             onChange={handleChange}
             value={fields.password}
+            required
           />
         </div>
       </div>
       <div className="card-footer text-muted">
-        <button type="submit" className="btn btn-primary">
-          Submit&nbsp;
-          <i className={`fas fa-spinner fa-spin ${!submitting}` ? 'd-node' : ''} />
+        <button type="submit" className="btn btn-success">
+          Login&nbsp;
         </button>
+        &nbsp;
+        <Link to="/auth/signup" className="btn btn-primary">
+          Signup&nbsp;
+        </Link>
       </div>
     </form>
   );

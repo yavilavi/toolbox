@@ -15,6 +15,7 @@ const NavBar = () => {
   const dispatch = useDispatch();
   const [term, setTerm] = useState('');
   const handleChange = ({ target }) => {
+    console.log(target.value);
     if (target.value.length === 0) {
       dispatch({
         type: TRIGGER_SEARCH,
