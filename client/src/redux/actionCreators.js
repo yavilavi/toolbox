@@ -177,21 +177,14 @@ export const checkAuth = (dispatch) => {
         payload: data,
       });
     })
-    .catch((e) => {
-      if (e.response) {
-        dispatch({
-          type: actionTypes.SET_LOG_STATUS,
-          payload: e.response.data,
-        });
-      } else {
-        dispatch({
-          type: actionTypes.SET_LOG_STATUS,
-          payload: {
-            isLoggedIn: false,
-            authChecked: true,
-          },
-        });
-      }
+    .catch(() => {
+      dispatch({
+        type: actionTypes.SET_LOG_STATUS,
+        payload: {
+          isLoggedIn: false,
+          authChecked: true,
+        },
+      });
     });
 };
 

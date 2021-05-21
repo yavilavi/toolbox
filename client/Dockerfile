@@ -11,7 +11,7 @@ COPY package.json /client/package.json
 RUN npm install
 
 COPY . /client
-
+RUN npm run lint
 RUN npm run build
 
 FROM nginx:1.16.0-alpine
