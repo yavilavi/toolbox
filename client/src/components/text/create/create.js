@@ -1,8 +1,9 @@
 import Card from 'react-bootstrap/card';
 import Button from 'react-bootstrap/Button';
 import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
 import TextEditor from '../editor';
-import { saveText } from '../../../redux/actionCreators';
+import { saveText, setSiteTitle } from '../../../redux/actionCreators';
 
 const TextCreate = () => {
   const content = useSelector((store) => store.textContent);
@@ -11,6 +12,10 @@ const TextCreate = () => {
   const submitText = () => {
     dispatch(saveText(content));
   };
+
+  useEffect(() => {
+    setSiteTitle(dispatch, 'Creating a new text');
+  }, [dispatch]);
   return (
     <>
       <Card.Body>

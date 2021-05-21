@@ -4,8 +4,12 @@ const router = express.Router();
 
 const User = require('../models/User');
 
+const { isAuthorizedMiddleware } = require('../middlewares/auth/index');
+
+router.use(isAuthorizedMiddleware);
 /* GET users listing. */
 router.get('/', (req, res) => {
+  console.log(req.user_id);
   User.find({})
     .then((users) => {
       res.status(201).json(users);

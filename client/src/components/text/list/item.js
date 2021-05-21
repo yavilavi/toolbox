@@ -3,6 +3,7 @@ import { Trash, Eye, Pencil } from 'react-bootstrap-icons';
 import Button from 'react-bootstrap/Button';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import Swal from 'sweetalert2';
 import { deleteText } from '../../../redux/actionCreators';
 
 const TextListItem = ({ item }) => {
@@ -18,7 +19,19 @@ const TextListItem = ({ item }) => {
   };
   const fireTextDeletion = (e) => {
     const { id } = e.currentTarget;
-    dispatch(deleteText(id.replace('delete-', '')));
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(deleteText(id.replace('delete-', '')));
+      }
+    });
   };
   return (
     <ListGroup.Item className="d-flex flex-row justify-content-between">

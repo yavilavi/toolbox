@@ -4,9 +4,21 @@ const router = express.Router();
 
 const Text = require('../models/Text');
 
-/* GET users listing. */
+const { isAuthorizedMiddleware } = require('../middlewares/auth/index');
+
+router.use(isAuthorizedMiddleware);
+
+const generateTitle = (content) => {
+  let title = content.replace(/(<([^>]+)>)/gi, '');
+  title = title.split(' ').slice(0, 3);
+  title = `${title.join(' ')} ...`;
+  return title;
+};
+
+/* GET Texts listing. */
 router.get('/', (req, res) => {
-  Text.find({ user_id: '60a5bedc209aa32a50ec34c2' })
+  const { id } = req.user;
+  Text.find({ user_id: id })
     .then((texts) => {
       const mappedTexts = texts.map((t) => ({
         title: t.title,
@@ -16,33 +28,33 @@ router.get('/', (req, res) => {
       }));
       res.status(200).json(mappedTexts);
     })
-    .catch((e) => {
-      res.status(500).json(e.stack);
+    .catch(() => {
+      res.status(500).json({ error: 'There was a problem fetching texts from database' });
     });
 });
 
 router.post('/', (req, res) => {
   const { content } = req.body;
+  const { id } = req.user;
   if (content || content === '') {
-    let title = content.replace(/(<([^>]+)>)/gi, '');
-    title = title.split(' ').slice(0, 3);
-    title = `${title.join(' ')} ...`;
-    Text.create({ user_id: '60a5bedc209aa32a50ec34c2', content, title, date: Date.now() })
+    const title = generateTitle();
+    Text.create({ user_id: id, content, title })
       .then((text) => {
-        res.status(201).json({ text, success: true });
+        // eslint-disable-next-line no-underscore-dangle
+        res.status(201).json({ text: { id: text._id, content: text.content }, success: true });
       })
-      .catch((e) => {
-        res.status(500).json(e.stack);
+      .catch(() => {
+        res.status(500).json({ error: 'Something went wrong please try again' });
       });
   } else {
-    console.log(content);
     res.status(400).json({ error: 'content is not valid' });
   }
 });
 
 router.get('/get/:id', (req, res) => {
   const { id } = req.params;
-  Text.find({ user_id: '60a5bedc209aa32a50ec34c2', _id: id })
+  const userId = req.user.id;
+  Text.find({ user_id: userId, _id: id })
     .then((text) => {
       if (text.length !== 0) {
         res.status(200).json(text[0].content);
@@ -57,15 +69,14 @@ router.get('/get/:id', (req, res) => {
 
 router.delete('/', (req, res) => {
   const { id } = req.body;
-  console.log(req.body);
-  console.log(id);
+  const userId = req.user.id;
   if (id) {
-    Text.findByIdAndDelete(id)
+    Text.findOneAndDelete({ _id: id, user_id: userId })
       .then(() => {
         res.status(204).json({ success: true });
       })
-      .catch((e) => {
-        res.status(500).json({ error: e.message });
+      .catch(() => {
+        res.status(500).json({ error: 'Something went wrong please try again' });
       });
   } else {
     res.status(400).json({ error: 'Invalid id' });
@@ -74,17 +85,15 @@ router.delete('/', (req, res) => {
 
 router.put('/', (req, res) => {
   const { content, id } = req.body;
-  console.log(req.body);
+  const userId = req.user.id;
   if (content && id && content !== '') {
-    let title = content.replace(/(<([^>]+)>)/gi, '');
-    title = title.split(' ').slice(0, 3);
-    title = `${title.join(' ')} ...`;
-    Text.updateOne({ _id: id }, { content, title })
+    const title = generateTitle(content);
+    Text.updateOne({ _id: id, user_id: userId }, { content, title })
       .then((ut) => {
         res.status(200).json({ ut, success: true });
       })
-      .catch((e) => {
-        res.status(500).json({ error: e.message });
+      .catch(() => {
+        res.status(500).json({ error: 'Something went wrong please try again' });
       });
   } else {
     res.status(400).json({ error: 'Invalid data' });

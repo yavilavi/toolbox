@@ -4,7 +4,6 @@ import { useDispatch } from 'react-redux';
 import { setContent } from '../../redux/actionCreators';
 
 const TextEditor = ({ readonly = false, text = '' }) => {
-  console.log(text);
   const dispatch = useDispatch();
   const editorRef = useRef(null);
   const handleChange = ({ level }) => {

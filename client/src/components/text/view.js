@@ -2,14 +2,18 @@ import Card from 'react-bootstrap/card';
 import { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
+import { useDispatch } from 'react-redux';
 import TextEditor from './editor';
-import { serverPetition } from '../../redux/actionCreators';
+import { instantiateAxios, setSiteTitle } from '../../redux/actionCreators';
 
 const TextView = () => {
   const { textId } = useParams();
   const [text, setText] = useState(null);
   const history = useHistory();
+  const dispatch = useDispatch();
   useEffect(() => {
+    setSiteTitle(dispatch, `Viewing text ID: ${textId}`);
+    const serverPetition = instantiateAxios();
     serverPetition
       .get(`texts/get/${textId}`)
       .then(({ data }) => {
@@ -18,7 +22,7 @@ const TextView = () => {
       .catch((e) => {
         console.log(e.response);
       });
-  }, [textId]);
+  }, [dispatch, textId]);
 
   const launchEditView = (e) => {
     const { id } = e.currentTarget;

@@ -5,11 +5,13 @@ import Navbar from 'react-bootstrap/Navbar';
 import Form from 'react-bootstrap/Form';
 import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { TRIGGER_SEARCH } from '../../../redux/actionTypes';
+import { doLogout } from '../../../redux/actionCreators';
 
 const NavBar = () => {
+  const userName = useSelector((state) => state.userName);
   const dispatch = useDispatch();
   const [term, setTerm] = useState('');
   const handleChange = ({ target }) => {
@@ -28,6 +30,10 @@ const NavBar = () => {
       payload: term.toLowerCase(),
     });
   };
+  const logout = (e) => {
+    e.preventDefault();
+    doLogout(dispatch);
+  };
   return (
     <Navbar bg="primary" variant="dark" expand="lg">
       <Link className="navbar-brand" to="/">
@@ -42,7 +48,11 @@ const NavBar = () => {
           <NavLink exact to="/my-texts" className="nav-link">
             My texts
           </NavLink>
+          <Link className="nav-link" to="#" onClick={logout}>
+            Logout
+          </Link>
         </Nav>
+        <Nav className="mr-auto text-white">{userName}</Nav>
         <Route exact path="/my-texts">
           <Form inline onSubmit={triggerSearch}>
             <FormControl

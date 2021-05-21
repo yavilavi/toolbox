@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import TextEditor from '../editor';
-import { editText, serverPetition } from '../../../redux/actionCreators';
+import { editText, instantiateAxios, setSiteTitle } from '../../../redux/actionCreators';
 
 const TextEdit = () => {
   const { textId } = useParams();
@@ -13,6 +13,8 @@ const TextEdit = () => {
   const content = useSelector((store) => store.textContent);
 
   useEffect(() => {
+    setSiteTitle(dispatch, `Editing text ID: ${textId}`);
+    const serverPetition = instantiateAxios();
     serverPetition
       .get(`texts/get/${textId}`)
       .then(({ data }) => {
