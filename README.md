@@ -2,7 +2,9 @@
 
 This project was made as a knowledge test performed by toolbox.
 
-## How to run
+Check live demo here : https://text.app.yilmer.work
+
+## How to run:
 
 ### Using docker-compose
 
@@ -15,6 +17,23 @@ In the project directory, you can run this command to build de image:
 When build is done, then run this command to start the container:
 
 #### `docker compose up`
+
+Go to http://localhost to view it in the browser.
+
+
+### Using docker
+
+First make sure you have docker installed and running
+
+In your terminal or CMD run this command to start the backend:
+
+#### `docker run -d -p 3001:3001 yavilavi/toolbox-technical-test-api`
+
+Then run this command to start the frontend:
+
+#### `docker run -d -p 80:80 yavilavi/toolbox-technical-test-client`
+
+Go to http://localhost to view it in the browser.
 
 ### Using NPM
 
@@ -54,5 +73,6 @@ Front end test weren't written due to time matters
 * Authenticaton using JWT (login, register, protected routes)
 * Mongo db storage for data persistence
 * Edit, Delete, View, alerts and search features
-* Can be ran using docker-compose
+* Can be ran using docker-compose or docker compose
 * VCS using GIT and GitGub
+* Deployed in AWS Check live demo here : https://text.app.yilmer.work
