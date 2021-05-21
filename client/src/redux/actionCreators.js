@@ -10,7 +10,7 @@ export const instantiateAxios = () =>
     withCredentials: true,
     baseURL: process.env.REACT_APP_BACKEND_URL || BASE_URL,
     headers: {
-      'Access-Control-Allow-Origin': 'localhost:3001',
+      'Access-Control-Allow-Origin': process.env.REACT_APP_DOMAIN || 'localhost:3001',
       Authorization: localStorage.getItem('AUTH_TOKEN'),
     },
   });
