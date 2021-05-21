@@ -1,4 +1,4 @@
-import ListGroup from 'react-bootstrap/ListGroup';
+import { ListGroup } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import TextListItem from './item';

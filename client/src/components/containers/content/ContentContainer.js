@@ -1,6 +1,5 @@
 import { Route, Switch } from 'react-router-dom';
-import Card from 'react-bootstrap/card';
-import Row from 'react-bootstrap/Row';
+import { Card, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import TextCreate from '../../text/create/create';

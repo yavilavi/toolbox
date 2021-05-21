@@ -1,7 +1,6 @@
-import Card from 'react-bootstrap/card';
+import { Card, Button } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import Button from 'react-bootstrap/Button';
 import { useDispatch } from 'react-redux';
 import TextEditor from './editor';
 import { instantiateAxios, setSiteTitle } from '../../redux/actionCreators';

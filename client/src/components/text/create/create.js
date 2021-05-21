@@ -1,5 +1,4 @@
-import Card from 'react-bootstrap/card';
-import Button from 'react-bootstrap/Button';
+import { Button, Card } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import TextEditor from '../editor';

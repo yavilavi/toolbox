@@ -1,10 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink, Link, Route } from 'react-router-dom';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import Form from 'react-bootstrap/Form';
-import FormControl from 'react-bootstrap/FormControl';
-import Button from 'react-bootstrap/Button';
+import { Nav, Navbar, Form, FormControl, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { TRIGGER_SEARCH } from '../../../redux/actionTypes';

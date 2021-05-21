@@ -1,6 +1,5 @@
-import ListGroup from 'react-bootstrap/ListGroup';
+import { Button, ListGroup } from 'react-bootstrap';
 import { Trash, Eye, Pencil } from 'react-bootstrap-icons';
-import Button from 'react-bootstrap/Button';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import Swal from 'sweetalert2';
