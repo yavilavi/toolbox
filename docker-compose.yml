@@ -2,6 +2,7 @@ version: "3"
 
 services:
   api:
+    image: yavilavi/toolbox-technical-test-api
     env_file:
       "./api/.env"
     build:
@@ -12,6 +13,7 @@ services:
     container_name: app-api
 
   client:
+    image: yavilavi/toolbox-technical-test-client
     build:
       context: ./client
       dockerfile: ./Dockerfile
