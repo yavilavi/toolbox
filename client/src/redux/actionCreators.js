@@ -1,16 +1,13 @@
 import axios from 'axios';
 
-import dotenv from 'dotenv';
 import * as actionTypes from './actionTypes';
 
-dotenv.config();
-const BASE_URL = 'http://localhost:3001/api/';
 export const instantiateAxios = () =>
   axios.create({
     withCredentials: true,
-    baseURL: process.env.REACT_APP_BACKEND_URL || BASE_URL,
+    baseURL: process.env.REACT_APP_BACKEND_URL,
     headers: {
-      'Access-Control-Allow-Origin': process.env.REACT_APP_DOMAIN || 'localhost:3001',
+      'Access-Control-Allow-Origin': process.env.REACT_APP_DOMAIN,
       Authorization: localStorage.getItem('AUTH_TOKEN'),
     },
   });
