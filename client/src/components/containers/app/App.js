@@ -30,7 +30,6 @@ function App() {
         }
       });
     } else if (redirection.should) {
-      console.log('redir');
       history.push(redirection.path);
       redirect(dispatch);
     }

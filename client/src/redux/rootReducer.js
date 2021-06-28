@@ -44,6 +44,8 @@ const rootReducer = (state = initialState, action) => {
       return { ...state, session: action.payload };
     case actionType.SET_USER_NAME:
       return { ...state, userName: action.payload };
+    case actionType.TRIGGER_SEARCH:
+      return { ...state, search: action.payload };
     default:
       return { ...state };
   }

@@ -8,7 +8,7 @@ const cors = require('cors');
 // const { MONGO_URI, TOKEN_SECRET } = process.env;
 const corsOptions = {
   credentials: true,
-  origin: process.env.ALLOWED_ORIGIN || 'http://localhost:3000',
+  origin: `http://${process.env.ALLOWED_ORIGIN}` || 'http://localhost:3000',
   optionsSuccessStatus: 200,
 };
 

@@ -79,7 +79,7 @@ describe('POST /users', () => {
             .set('Authorization', tkn)
             .end((error, response) => {
               expect(response.statusCode).to.equal(200);
-              expect(response.body.name).to.equal('Testing User');
+              expect(response.body.isLoggedIn).to.be.true;
               done();
             });
         });
